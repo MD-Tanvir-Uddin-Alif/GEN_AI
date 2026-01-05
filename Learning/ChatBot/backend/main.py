@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
 import os
@@ -19,7 +19,7 @@ app = FastAPI(title="LangChain Gemini API")
 # Request Schema
 #-----------------------------------
 class QuesryRequest(BaseModel):
-    query: str
+    query: str = Field(min_length=1)
 
 
 #-----------------------------------

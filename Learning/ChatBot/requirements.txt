@@ -8,3 +8,6 @@ pydantic==2.12..5
 langchain-community==0.4.1
 beautifulsoup4==4.14.3
 pypdf==6.5.0
+langchain-openai==1.1.6
+chromadb==1.4.0
+langchain-classic==1.0.1

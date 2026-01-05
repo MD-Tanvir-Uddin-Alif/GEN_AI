@@ -2,14 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
-import os
 
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
-
-
-load_dotenv()
+from rag_engine import get_answer
 
 
 app = FastAPI(title="LangChain Gemini API")
@@ -25,24 +19,19 @@ class QuesryRequest(BaseModel):
 #-----------------------------------
 # Langchain Setup
 #-----------------------------------
-prompt = ChatPromptTemplate.from_messages(
-    [
-        ("system", "You are a helpful assistant. Please respond to the user queries."),
-        ("user", "Question: {question}")
-    ]
-)
 
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
-    temperature=0.7,
-    google_api_key=os.getenv("GOOGLE_API_KEY")
-)
+
+# llm = ChatGoogleGenerativeAI(
+#     model="gemini-2.5-flash",
+#     temperature=0.7,
+#     google_api_key=os.getenv("GOOGLE_API_KEY")
+# )
 
 
-OutPutParser = StrOutputParser()
+# OutPutParser = StrOutputParser()
 
-chain = prompt | llm | OutPutParser
+# chain = prompt | llm | OutPutParser
 
 
 
@@ -50,10 +39,7 @@ chain = prompt | llm | OutPutParser
 # API Route
 #-----------------------------------
 @app.post("/ask")
-async def ask_llm(payload: QuesryRequest):
+def ask_llm(payload: QuesryRequest):
 
-    responce = chain.invoke({"question":payload.query})
-    return{
-        "question": payload.query,
-        "answer": responce
-    }
+    response = get_answer(payload.query)
+    return {"answer": response}

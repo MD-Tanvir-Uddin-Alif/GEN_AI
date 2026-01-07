@@ -64,6 +64,11 @@ docs = [
     Document(page_content=chunk, metadata={"source": "SARCASM DETECTION IN PERSIAN.pdf"})
     for chunk in document
 ]
+
+# pip install torch --index-url https://download.pytorch.org/whl/cpu
+# pip install sentence-transformers
+
+
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 db = Chroma.from_documents(docs, embeddings)
 

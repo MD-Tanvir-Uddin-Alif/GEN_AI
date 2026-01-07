@@ -11,3 +11,6 @@ pypdf==6.5.0
 langchain-openai==1.1.6
 chromadb==1.4.0
 langchain-classic==1.0.1
+arxiv==2.4.0
+wikipedia==1.4.0
+langchain-huggingface-1.2.0

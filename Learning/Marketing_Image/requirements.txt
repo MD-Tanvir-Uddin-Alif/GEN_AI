@@ -1,0 +1,10 @@
+langchain==1.2.0
+langchain-google-genai==4.1.2
+dotenv==0.9.9
+google-generativeai==0.8.6
+fastapi==0.128.0
+pydantic==2.12..5
+langchain-community==0.4.1
+chromadb==1.4.0
+langchain-classic==1.0.1
+langchain-huggingface==1.2.0

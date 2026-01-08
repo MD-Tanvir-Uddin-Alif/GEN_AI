@@ -1,10 +1,12 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
+from dotenv import load_dotenv
 import json
 import os
-from dotenv import load_dotenv
 
+
+from vision_analyzer import analyze_image
 
 load_dotenv()
 
@@ -47,18 +49,14 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 
+image_path = "/home/md-tanvir-uddin-alif/Personal_Project/Gen_AI/Learning/Marketing_Image/images/IMG_3839.JPG"
+image_metadata = analyze_image(image_path)
+
 input_data = {
-  "image_metadata": {
-    "product": "Running shoes",
-    "category": "Sportswear",
-    "colors": ["black", "red"],
-    "logo": "present",
-    "model": "male",
-    "pose": "dynamic running"
-  },
-  "user_prompt": "make it look cool for eid sale",
+  "image_metadata": image_metadata,
+  "user_prompt": "i want to sale my e-commerce product",
   "campaign": {
-    "event": "Eid",
+    "event": "sale",
     "discount": "30%",
     "platform": "Facebook banner",
     "brand_tone": "energetic and modern"

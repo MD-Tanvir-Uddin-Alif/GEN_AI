@@ -1,6 +1,7 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 import json
 import os
@@ -12,11 +13,19 @@ load_dotenv()
 
 
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
+llm = ChatGroq(
+    model="llama-3.1-8b-instant",
     temperature=0.4,
-    google_api_key=os.getenv("GOOGLE_API_KEY")
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
 )
+
+# llm = ChatGoogleGenerativeAI(
+#     model="gemini-2.5-flash",
+#     temperature=0.4,
+#     google_api_key=os.getenv("GOOGLE_API_KEY")
+# )
 
 
 system_prompt = """You are a professional AI prompt engineer for image generation systems.

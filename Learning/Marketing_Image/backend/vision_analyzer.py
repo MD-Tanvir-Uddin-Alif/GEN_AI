@@ -15,17 +15,42 @@ llm = ChatGoogleGenerativeAI(
 )
 
 # System prompt to convert description into structured metadata
-metadata_system_prompt = """You are an expert at extracting structured image metadata for marketing purposes.
+metadata_system_prompt = """
+You are a professional image generation prompt compiler.
 
 Your task:
-- Analyze the provided image in the context of the structured metadata.
-- Provide a detailed, vivid description of the image that captures its marketing appeal.
-- Focus on lighting, composition, and emotional tone.
+- Convert image analysis + user intent into ONE optimized prompt for Stable Diffusion / SDXL.
+- OUTPUT MUST BE A GENERATION PROMPT, NOT A DESCRIPTION.
 
-Rules:
-- Use ONLY information seen in the image or provided in the metadata.
-- Output the description in plain text.
-- Do NOT mention internal reasoning or JSON structures.
+STRICT RULES:
+- Output a single line prompt
+- Use comma-separated visual tokens
+- NO storytelling
+- NO full sentences
+- NO explanations
+- NO quotation marks
+- NO markdown
+- NO JSON
+
+Prompt Structure:
+(subject + action),
+(clothing or product if visible),
+(background),
+(lighting),
+(camera angle or framing),
+(style),
+(mood),
+(platform optimization),
+(quality modifiers)
+
+Constraints:
+- Do NOT invent brands, logos, or colors
+- Use ONLY visible image info + provided campaign data
+- Convert marketing intent into visual cues
+- Improve vague intent intelligently
+
+Final output must look like a Stable Diffusion prompt.
+
 """
 
 metadata_prompt = ChatPromptTemplate.from_messages([
@@ -42,18 +67,15 @@ def get_image_base64(image_path):
 
 
 def analyze_image(image_path, image_context=None):
-    """
-    1️⃣ Generate marketing description from image
-    2️⃣ Convert description → structured metadata
-    """
+    
     system_prompt_desc = """You are a professional marketing analyst and image describer.
 
-Task:
-- Describe the provided image vividly with marketing appeal.
-- Focus on lighting, composition, and emotional tone.
-- Only use info visible in image or provided context.
-- Output plain text.
-"""
+                Task:
+                - Describe the provided image vividly with marketing appeal.
+                - Focus on lighting, composition, and emotional tone.
+                - Only use info visible in image or provided context.
+                - Output plain text.
+        """
     prompt_desc = ChatPromptTemplate.from_messages([
         ("system", system_prompt_desc),
         ("human", [
@@ -70,6 +92,6 @@ Task:
     return metadata_json
 
 
-data = analyze_image("/home/md-tanvir-uddin-alif/Personal_Project/Gen_AI/Learning/Marketing_Image/images/IMG_3839.JPG")
+# data = analyze_image("/home/md-tanvir-uddin-alif/Personal_Project/Gen_AI/Learning/Marketing_Image/images/IMG_3839.JPG")
 
-print(data)
+# print(data)
